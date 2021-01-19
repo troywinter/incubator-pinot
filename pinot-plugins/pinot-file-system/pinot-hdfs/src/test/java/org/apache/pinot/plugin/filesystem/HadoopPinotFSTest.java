@@ -38,7 +38,9 @@ public class HadoopPinotFSTest {
     try (HadoopPinotFS hadoopFS = new HadoopPinotFS()) {
       hadoopFS.init(new PinotConfiguration());
       hadoopFS.mkdir(new Path(baseURI.getPath(), "src").toUri());
-      hadoopFS.mkdir(new Path(baseURI.getPath(), "src/dir").toUri());
+      URI uri = new Path(baseURI.getPath(), "src/dir").toUri();
+      hadoopFS.mkdir(uri);
+      Assert.assertTrue(hadoopFS.isDirectory(uri));
       hadoopFS.touch(new Path(baseURI.getPath(), "src/dir/1").toUri());
       hadoopFS.touch(new Path(baseURI.getPath(), "src/dir/2").toUri());
       String[] srcFiles = hadoopFS.listFiles(new Path(baseURI.getPath(), "src").toUri(), true);

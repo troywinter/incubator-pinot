@@ -202,9 +202,11 @@ public class HadoopPinotFS extends PinotFS {
 
   @Override
   public boolean isDirectory(URI uri) {
-    FileStatus fileStatus = new FileStatus();
-    fileStatus.setPath(new Path(uri));
-    return fileStatus.isDirectory();
+    try {
+       return _hadoopFS.getFileStatus(new Path(uri)).isDirectory();
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   @Override
